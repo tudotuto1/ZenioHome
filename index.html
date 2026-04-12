@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #1A3050; /* Slightly desaturated navy for 'tech' feel */
+  --navy: #1A3050;
   --navy-dark: #0F1D32;
   --navy-light: #2C4B78;
-  --ethereal-blue: #D8E5F0; /* From logo, used as highlight */
-  --copper-accent: #B07D62; /* Brighter accent, like copper/brushed metal */
+  --ethereal-blue: #D8E5F0; 
+  --copper-accent: #B07D62;
   --copper-pale: #F0E6E0;
   --cream: #F2EFEA;
   --warm-gray: #E8E4DE;
@@ -37,10 +37,10 @@ nav {
   border-bottom: 1px solid var(--warm-gray);
   padding: 0 48px;
   display: flex; align-items: center; justify-content: space-between;
-  height: 80px;
+  height: 90px;
 }
 .nav-logo img {
-  height: 64px; /* Slightly taller to accommodate the new logo profile */
+  height: 75px; 
   width: auto;
   object-fit: contain;
 }
@@ -68,7 +68,7 @@ nav {
 
 /* ---- HERO ---- */
 .hero {
-  min-height: 85vh;
+  min-height: 90vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -150,9 +150,7 @@ nav {
   font-size: 13px;
   color: var(--navy-dark);
   outline: none; width: 240px;
-  transition: border-color 0.2s;
 }
-.search-input:focus { border-color: var(--navy); }
 .search-icon {
   position: absolute; left: 16px; top: 50%;
   transform: translateY(-50%);
@@ -168,40 +166,19 @@ nav {
   object-fit: cover;
   border-radius: 4px;
   display: block;
-  box-shadow: 20px 20px 60px rgba(0,0,0,0.05);
+  box-shadow: 20px 20px 60px rgba(0,0,0,0.08);
 }
 .hero-image-accent {
   position: absolute;
   bottom: -24px; left: -24px;
   width: 160px; height: 160px;
-  border: 1px solid var(--copper-pale);
+  border: 1px solid var(--copper-accent);
   z-index: -1;
 }
 
-/* ---- STATS ---- */
-.stats-bar {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--warm-gray);
-  border-bottom: 1px solid var(--warm-gray);
-}
-.stat-item {
-  background: var(--white);
-  padding: 32px 48px;
-  display: flex; align-items: center; gap: 20px;
-}
-.stat-icon { font-size: 24px; color: var(--copper-accent); }
-.stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px; font-weight: 300; color: var(--navy-dark);
-  line-height: 1; margin-bottom: 4px;
-}
-.stat-label { font-size: 12px; color: var(--light-text); letter-spacing: 0.05em; }
-
 /* ---- PRODUCTS ---- */
 .products-section {
-  padding: 120px 80px;
+  padding: 100px 80px;
   background: var(--white);
 }
 .section-header {
@@ -210,40 +187,20 @@ nav {
   align-items: flex-end;
   margin-bottom: 56px;
 }
-.section-eyebrow {
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--copper-accent); margin-bottom: 12px;
-  display: flex; align-items: center; gap: 12px;
-}
-.section-eyebrow::before {
-  content: ''; width: 28px; height: 1px;
-  background: var(--copper-accent); display: block;
-}
 .section-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 36px; font-weight: 300;
   color: var(--navy-dark);
 }
-.see-all {
-  font-size: 12px; font-weight: 400;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--navy); text-decoration: none;
-  border-bottom: 1px solid var(--navy);
-  transition: color 0.2s, border-color 0.2s;
-}
-.see-all:hover { color: var(--copper-accent); border-color: var(--copper-accent); }
-
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 28px;
 }
 .product-card {
-  cursor: pointer;
   transition: transform 0.3s;
 }
-.product-card:hover { transform: translateY(-4px); }
+.product-card:hover { transform: translateY(-5px); }
 .product-img {
   width: 100%;
   aspect-ratio: 1;
@@ -252,31 +209,11 @@ nav {
   font-size: 52px;
   border-radius: 4px;
   margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
-.product-badge {
-  position: absolute; top: 12px; left: 12px;
-  background: var(--copper-accent);
-  color: var(--white);
-  font-size: 10px; padding: 4px 10px;
-}
-.product-category {
-  font-size: 10px; letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--copper-accent); margin-bottom: 6px;
 }
 .product-name {
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px; color: var(--navy-dark);
-  margin-bottom: 6px; line-height: 1.3;
-}
-.product-desc {
-  font-size: 13px; color: var(--light-text);
-  line-height: 1.6; margin-bottom: 16px;
-}
-.product-footer {
-  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
 }
 .product-price {
   font-family: 'Cormorant Garamond', serif;
@@ -295,22 +232,19 @@ nav {
 
 /* ---- PERKS ---- */
 .perks-section {
-  background: var(--cream);
+  background: var(--white);
   padding: 80px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
 }
 .perk {
-  padding: 20px;
+  border: 1px solid var(--warm-gray);
+  padding: 40px;
+  text-align: center;
 }
-.perk-icon { font-size: 28px; margin-bottom: 18px; color: var(--copper-accent); }
-.perk-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px; color: var(--navy-dark);
-  margin-bottom: 8px;
-}
-.perk-text { font-size: 14px; color: var(--light-text); }
+.perk-icon { font-size: 32px; margin-bottom: 15px; display: block; }
+.perk-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; margin-bottom: 10px; }
 
 /* ---- NEWSLETTER ---- */
 .newsletter {
@@ -319,37 +253,11 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 48px;
 }
-.nl-left {}
-.nl-eyebrow {
-  font-size: 11px; letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ethereal-blue); margin-bottom: 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-.nl-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--ethereal-blue); }
-.nl-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 40px; color: var(--white);
-  line-height: 1.2;
-}
-.nl-title em { font-style: italic; color: var(--ethereal-blue); }
-.nl-form { display: flex; min-width: 380px; }
-.nl-input {
-  flex: 1;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: var(--white); padding: 14px 20px;
-  outline: none;
-}
-.nl-btn {
-  background: var(--copper-accent);
-  color: var(--white); border: none;
-  padding: 14px 28px; font-size: 11px;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  cursor: pointer;
-}
+.nl-title { font-family: 'Cormorant Garamond', serif; font-size: 40px; color: var(--white); }
+.nl-form { display: flex; }
+.nl-input { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: var(--white); padding: 14px 20px; outline: none; min-width: 300px; }
+.nl-btn { background: var(--copper-accent); color: var(--white); border: none; padding: 14px 28px; cursor: pointer; }
 
 /* ---- FOOTER ---- */
 footer {
@@ -361,9 +269,8 @@ footer {
   align-items: center;
 }
 .footer-left { font-size: 12px; color: rgba(255,255,255,0.3); }
-.footer-links { display: flex; gap: 28px; list-style: none; }
-.footer-links a { font-size: 11px; color: rgba(255,255,255,0.3); text-decoration: none; }
 
+/* ---- TOAST ---- */
 .toast {
   position: fixed; bottom: 32px; right: 32px;
   background: var(--navy-dark); color: var(--white);
@@ -375,18 +282,16 @@ footer {
 
 @media (max-width: 1024px) {
   .hero { grid-template-columns: 1fr; padding: 60px 40px; }
-  .stats-bar, .products-grid, .perks-section { grid-template-columns: repeat(2, 1fr); }
   .products-grid { grid-template-columns: repeat(2, 1fr); }
-  .newsletter { flex-direction: column; text-align: center; }
-  .nl-form { min-width: unset; width: 100%; }
+  .newsletter { flex-direction: column; gap: 40px; text-align: center; }
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">
-    <img src="Ethereal Logo for Zenio Home.jpg" alt="Zenio Home Ethereal Logo">
+  <a href="index.html" class="nav-logo">
+    <img src="Ethereal Logo for Zenio Home.jpg" alt="Zenio Home Logo">
   </a>
   <ul class="nav-links">
     <li><a href="#">Accueil</a></li>
@@ -397,9 +302,9 @@ footer {
 
 <section class="hero">
   <div class="hero-text">
-    <div class="hero-eyebrow">Minimalisme & Technologie</div>
+    <div class="hero-eyebrow">Minimalisme & Innovation</div>
     <h1>L'art de vivre<br><em>intelligent</em> au<br>quotidien.</h1>
-    <p class="hero-desc">Découvrez une sélection rigoureuse d'objets connectés et de gadgets design pour transformer votre intérieur en sanctuaire moderne.</p>
+    <p class="hero-desc">Découvrez une sélection rigoureuse de gadgets "cool type shit" pour transformer votre intérieur en sanctuaire technologique.</p>
     <div class="hero-actions">
       <a href="#" class="btn-primary">Explorer la collection</a>
       <div class="search-wrap">
@@ -409,73 +314,46 @@ footer {
     </div>
   </div>
   <div class="hero-image">
-    <img src="https://images.unsplash.com/photo-1614359835514-93b704870f44?q=80&w=1000&auto=format&fit=crop" alt="Zenio Smart Mag-Lev Home Gadget">
+    <img src="https://images.unsplash.com/photo-1614359835514-93b704870f44?q=80&w=1000&auto=format&fit=crop" alt="Smart Mag-Lev Diffuser">
     <div class="hero-image-accent"></div>
   </div>
 </section>
 
-<div class="stats-bar">
-  <div class="stat-item">
-    <span class="stat-icon">★</span>
-    <div><div class="stat-num">4.9/5</div><div class="stat-label">Avis Clients</div></div>
-  </div>
-  <div class="stat-item">
-    <span class="stat-icon">🚚</span>
-    <div><div class="stat-num">48h</div><div class="stat-label">Livraison Moyenne</div></div>
-  </div>
-  <div class="stat-item">
-    <span class="stat-icon">🤝</span>
-    <div><div class="stat-num">3000+</div><div class="stat-label">Clients Satisfaits</div></div>
-  </div>
-</div>
-
 <section class="products-section">
   <div class="section-header">
-    <div>
-      <div class="section-eyebrow">Sélection</div>
-      <div class="section-title">Produits tendance</div>
-    </div>
-    <a href="#" class="see-all">Tout voir &rarr;</a>
+    <div class="section-title">Produits tendance</div>
   </div>
   <div class="products-grid">
     <div class="product-card">
       <div class="product-img">🌡️</div>
-      <div class="product-category">Cuisine</div>
-      <div class="product-name">Thermomètre de cuisine smart</div>
-      <div class="product-desc">Précision chirurgicale connectée à votre application mobile.</div>
+      <div class="product-name">Thermomètre Smart</div>
       <div class="product-footer">
         <span class="product-price">€34,99</span>
-        <button class="add-btn" onclick="addToCart('Thermomètre smart')">+ Panier</button>
+        <button class="add-btn" onclick="addToCart('Thermomètre')">+ Panier</button>
       </div>
     </div>
     <div class="product-card">
       <div class="product-img">💡</div>
-      <div class="product-category">Éclairage</div>
-      <div class="product-name">Ampoule LED ambiance RGB</div>
-      <div class="product-desc">Créez l'atmosphère parfaite depuis votre smartphone.</div>
+      <div class="product-name">Ampoule LED RGB</div>
       <div class="product-footer">
         <span class="product-price">€19,99</span>
-        <button class="add-btn" onclick="addToCart('Ampoule RGB')">+ Panier</button>
+        <button class="add-btn" onclick="addToCart('Ampoule')">+ Panier</button>
       </div>
     </div>
     <div class="product-card">
-      <div class="product-img">🧹<div class="product-badge">Top</div></div>
-      <div class="product-category">Entretien</div>
-      <div class="product-name">Mini aspirateur de bureau</div>
-      <div class="product-desc">Puissant, rechargeable et incroyablement silencieux.</div>
+      <div class="product-img">🧹</div>
+      <div class="product-name">Mini Aspi Bureau</div>
       <div class="product-footer">
         <span class="product-price">€27,99</span>
-        <button class="add-btn" onclick="addToCart('Mini aspirateur')">+ Panier</button>
+        <button class="add-btn" onclick="addToCart('Aspirateur')">+ Panier</button>
       </div>
     </div>
     <div class="product-card">
       <div class="product-img">🌿</div>
-      <div class="product-category">Jardin</div>
-      <div class="product-name">Capteur d'humidité smart</div>
-      <div class="product-desc">Gardez vos plantes en parfaite santé avec les alertes en temps réel.</div>
+      <div class="product-name">Capteur Humidité</div>
       <div class="product-footer">
         <span class="product-price">€14,99</span>
-        <button class="add-btn" onclick="addToCart('Capteur plantes')">+ Panier</button>
+        <button class="add-btn" onclick="addToCart('Capteur')">+ Panier</button>
       </div>
     </div>
   </div>
@@ -483,47 +361,27 @@ footer {
 
 <div class="perks-section">
   <div class="perk">
-    <span class="perk-icon">📦</span>
-    <div class="perk-title">Livraison Gratuite</div>
-    <div class="perk-text">Offerte dès 50€ d'achat partout en France métropolitaine.</div>
-  </div>
-  <div class="perk">
-    <span class="perk-icon">🔄</span>
-    <div class="perk-title">Retours Simplifiés</div>
-    <div class="perk-text">Trente jours pour changer d'avis, sans tracas et sans frais cachés.</div>
-  </div>
-  <div class="perk">
     <span class="perk-icon">🔒</span>
     <div class="perk-title">Paiement Sécurisé</div>
-    <div class="perk-text">Transactions chiffrées (SSL) pour une sécurité totale de vos données.</div>
+    <p>Transactions chiffrées SSL pour une sécurité totale de vos données.</p>
   </div>
   <div class="perk">
     <span class="perk-icon">🎧</span>
     <div class="perk-title">Support Expert</div>
-    <div class="perk-text">Notre équipe est disponible 7j/7 pour répondre à vos questions techniques.</div>
+    <p>Notre équipe est disponible 7j/7 pour répondre à vos questions techniques.</p>
   </div>
 </div>
 
 <section class="newsletter">
-  <div class="nl-left">
-    <div class="nl-eyebrow">Privilèges</div>
-    <div class="nl-title">Rejoignez notre<br><em>cercle privé</em><br>et profitez de &minus;10%.</div>
-  </div>
-  <div>
-    <div class="nl-form">
-      <input type="email" class="nl-input" placeholder="votre@email.com" id="nl-email">
-      <button class="nl-btn" onclick="subscribe()">S'inscrire</button>
-    </div>
+  <div class="nl-title">Rejoignez notre cercle privé.</div>
+  <div class="nl-form">
+    <input type="email" class="nl-input" placeholder="votre@email.com" id="nl-email">
+    <button class="nl-btn" onclick="subscribe()">S'inscrire</button>
   </div>
 </section>
 
 <footer>
   <div class="footer-left">© 2026 Zenio Home — Design & Technologie</div>
-  <ul class="footer-links">
-    <li><a href="#">CGV</a></li>
-    <li><a href="#">Confidentialité</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -536,15 +394,13 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 function addToCart(name) {
-  showToast(name + ' ajouté au panier ✓');
+  showToast(name + ' ajouté ✓');
 }
 function subscribe() {
   const v = document.getElementById('nl-email').value;
   if (v && v.includes('@')) {
-    showToast('Bienvenue ! Votre remise de 10% arrive par mail.');
+    showToast('Bienvenue !');
     document.getElementById('nl-email').value = '';
-  } else {
-    showToast('Veuillez entrer une adresse valide.');
   }
 }
 </script>
