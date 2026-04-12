@@ -7,12 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #2C3E5A;
-  --navy-dark: #1a2638;
-  --navy-light: #3d5275;
-  --terra: #A0614A;
-  --terra-light: #C4856D;
-  --terra-pale: #e8c9be;
+  --navy: #1A3050; /* Slightly desaturated navy for 'tech' feel */
+  --navy-dark: #0F1D32;
+  --navy-light: #2C4B78;
+  --ethereal-blue: #D8E5F0; /* From logo, used as highlight */
+  --copper-accent: #B07D62; /* Brighter accent, like copper/brushed metal */
+  --copper-pale: #F0E6E0;
   --cream: #F2EFEA;
   --warm-gray: #E8E4DE;
   --mid-gray: #9a9390;
@@ -40,7 +40,8 @@ nav {
   height: 80px;
 }
 .nav-logo img {
-  height: 56px; width: auto;
+  height: 64px; /* Slightly taller to accommodate the new logo profile */
+  width: auto;
   object-fit: contain;
 }
 .nav-links {
@@ -54,7 +55,7 @@ nav {
   color: var(--navy); text-decoration: none;
   transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--terra); }
+.nav-links a:hover { color: var(--copper-accent); }
 .nav-cta {
   background: var(--navy);
   color: var(--white) !important;
@@ -63,7 +64,7 @@ nav {
   letter-spacing: 0.14em;
   transition: background 0.2s !important;
 }
-.nav-cta:hover { background: var(--terra) !important; color: var(--white) !important; }
+.nav-cta:hover { background: var(--copper-accent) !important; color: var(--white) !important; }
 
 /* ---- HERO ---- */
 .hero {
@@ -82,7 +83,7 @@ nav {
   position: absolute; top: -120px; right: -120px;
   width: 500px; height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(160,97,74,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(176,125,98,0.1) 0%, transparent 70%);
   pointer-events: none;
 }
 .hero-text { position: relative; z-index: 2; }
@@ -90,13 +91,13 @@ nav {
   display: inline-flex; align-items: center; gap: 12px;
   font-size: 11px; font-weight: 400;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--terra);
+  color: var(--copper-accent);
   margin-bottom: 28px;
 }
 .hero-eyebrow::before {
   content: ''; display: block;
   width: 32px; height: 1px;
-  background: var(--terra);
+  background: var(--copper-accent);
 }
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
@@ -109,7 +110,7 @@ nav {
 }
 .hero h1 em {
   font-style: italic;
-  color: var(--terra);
+  color: var(--copper-accent);
 }
 .hero-desc {
   font-size: 15px;
@@ -135,7 +136,7 @@ nav {
   border-radius: 2px;
   transition: background 0.25s;
 }
-.btn-primary:hover { background: var(--terra); }
+.btn-primary:hover { background: var(--copper-accent); }
 
 .search-wrap {
   position: relative; display: inline-block;
@@ -173,9 +174,30 @@ nav {
   position: absolute;
   bottom: -24px; left: -24px;
   width: 160px; height: 160px;
-  border: 1px solid var(--terra-pale);
+  border: 1px solid var(--copper-pale);
   z-index: -1;
 }
+
+/* ---- STATS ---- */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--warm-gray);
+  border-bottom: 1px solid var(--warm-gray);
+}
+.stat-item {
+  background: var(--white);
+  padding: 32px 48px;
+  display: flex; align-items: center; gap: 20px;
+}
+.stat-icon { font-size: 24px; color: var(--copper-accent); }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 300; color: var(--navy-dark);
+  line-height: 1; margin-bottom: 4px;
+}
+.stat-label { font-size: 12px; color: var(--light-text); letter-spacing: 0.05em; }
 
 /* ---- PRODUCTS ---- */
 .products-section {
@@ -191,12 +213,12 @@ nav {
 .section-eyebrow {
   font-size: 11px; font-weight: 400;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--terra); margin-bottom: 12px;
+  color: var(--copper-accent); margin-bottom: 12px;
   display: flex; align-items: center; gap: 12px;
 }
 .section-eyebrow::before {
   content: ''; width: 28px; height: 1px;
-  background: var(--terra); display: block;
+  background: var(--copper-accent); display: block;
 }
 .section-title {
   font-family: 'Cormorant Garamond', serif;
@@ -210,7 +232,7 @@ nav {
   border-bottom: 1px solid var(--navy);
   transition: color 0.2s, border-color 0.2s;
 }
-.see-all:hover { color: var(--terra); border-color: var(--terra); }
+.see-all:hover { color: var(--copper-accent); border-color: var(--copper-accent); }
 
 .products-grid {
   display: grid;
@@ -235,14 +257,14 @@ nav {
 }
 .product-badge {
   position: absolute; top: 12px; left: 12px;
-  background: var(--terra);
+  background: var(--copper-accent);
   color: var(--white);
   font-size: 10px; padding: 4px 10px;
 }
 .product-category {
   font-size: 10px; letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--terra); margin-bottom: 6px;
+  color: var(--copper-accent); margin-bottom: 6px;
 }
 .product-name {
   font-family: 'Cormorant Garamond', serif;
@@ -276,26 +298,19 @@ nav {
   background: var(--cream);
   padding: 80px;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Simplifié */
-  gap: 40px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
 }
 .perk {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
 }
-.perk-icon { font-size: 28px; margin-bottom: 18px; }
+.perk-icon { font-size: 28px; margin-bottom: 18px; color: var(--copper-accent); }
 .perk-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 20px; color: var(--navy-dark);
   margin-bottom: 8px;
 }
-.perk-text {
-  font-size: 14px; color: var(--light-text);
-  max-width: 300px;
-}
+.perk-text { font-size: 14px; color: var(--light-text); }
 
 /* ---- NEWSLETTER ---- */
 .newsletter {
@@ -310,16 +325,16 @@ nav {
 .nl-eyebrow {
   font-size: 11px; letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--terra-light); margin-bottom: 16px;
+  color: var(--ethereal-blue); margin-bottom: 16px;
   display: flex; align-items: center; gap: 12px;
 }
-.nl-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--terra-light); }
+.nl-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--ethereal-blue); }
 .nl-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 40px; color: var(--white);
   line-height: 1.2;
 }
-.nl-title em { font-style: italic; color: var(--terra-light); }
+.nl-title em { font-style: italic; color: var(--ethereal-blue); }
 .nl-form { display: flex; min-width: 380px; }
 .nl-input {
   flex: 1;
@@ -329,7 +344,7 @@ nav {
   outline: none;
 }
 .nl-btn {
-  background: var(--terra);
+  background: var(--copper-accent);
   color: var(--white); border: none;
   padding: 14px 28px; font-size: 11px;
   letter-spacing: 0.18em; text-transform: uppercase;
@@ -352,7 +367,7 @@ footer {
 .toast {
   position: fixed; bottom: 32px; right: 32px;
   background: var(--navy-dark); color: var(--white);
-  padding: 14px 24px; border-left: 3px solid var(--terra);
+  padding: 14px 24px; border-left: 3px solid var(--copper-accent);
   opacity: 0; transform: translateY(8px);
   transition: 0.3s; z-index: 200;
 }
@@ -360,6 +375,7 @@ footer {
 
 @media (max-width: 1024px) {
   .hero { grid-template-columns: 1fr; padding: 60px 40px; }
+  .stats-bar, .products-grid, .perks-section { grid-template-columns: repeat(2, 1fr); }
   .products-grid { grid-template-columns: repeat(2, 1fr); }
   .newsletter { flex-direction: column; text-align: center; }
   .nl-form { min-width: unset; width: 100%; }
@@ -370,7 +386,8 @@ footer {
 
 <nav>
   <a href="#" class="nav-logo">
-    <img src="data:image/png;base64,..." alt="Zenio Home"> </a>
+    <img src="Ethereal Logo for Zenio Home.jpg" alt="Zenio Home Ethereal Logo">
+  </a>
   <ul class="nav-links">
     <li><a href="#">Accueil</a></li>
     <li><a href="#">Catalogue</a></li>
@@ -392,10 +409,25 @@ footer {
     </div>
   </div>
   <div class="hero-image">
-    <img src="https://images.unsplash.com/photo-1583847268964-b28dc2f51ac9?auto=format&fit=crop&q=90&w=1000" alt="Intérieur moderne Zenio">
+    <img src="https://images.unsplash.com/photo-1614359835514-93b704870f44?q=80&w=1000&auto=format&fit=crop" alt="Zenio Smart Mag-Lev Home Gadget">
     <div class="hero-image-accent"></div>
   </div>
 </section>
+
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-icon">★</span>
+    <div><div class="stat-num">4.9/5</div><div class="stat-label">Avis Clients</div></div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-icon">🚚</span>
+    <div><div class="stat-num">48h</div><div class="stat-label">Livraison Moyenne</div></div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-icon">🤝</span>
+    <div><div class="stat-num">3000+</div><div class="stat-label">Clients Satisfaits</div></div>
+  </div>
+</div>
 
 <section class="products-section">
   <div class="section-header">
@@ -451,14 +483,24 @@ footer {
 
 <div class="perks-section">
   <div class="perk">
+    <span class="perk-icon">📦</span>
+    <div class="perk-title">Livraison Gratuite</div>
+    <div class="perk-text">Offerte dès 50€ d'achat partout en France métropolitaine.</div>
+  </div>
+  <div class="perk">
+    <span class="perk-icon">🔄</span>
+    <div class="perk-title">Retours Simplifiés</div>
+    <div class="perk-text">Trente jours pour changer d'avis, sans tracas et sans frais cachés.</div>
+  </div>
+  <div class="perk">
     <span class="perk-icon">🔒</span>
-    <div class="perk-title">Paiement sécurisé</div>
-    <div class="perk-text">Transactions chiffrées et protection totale de vos données bancaires.</div>
+    <div class="perk-title">Paiement Sécurisé</div>
+    <div class="perk-text">Transactions chiffrées (SSL) pour une sécurité totale de vos données.</div>
   </div>
   <div class="perk">
     <span class="perk-icon">🎧</span>
     <div class="perk-title">Support Expert</div>
-    <div class="perk-text">Notre équipe vous accompagne 7j/7 pour une expérience sans faille.</div>
+    <div class="perk-text">Notre équipe est disponible 7j/7 pour répondre à vos questions techniques.</div>
   </div>
 </div>
 
