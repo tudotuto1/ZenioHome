@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalogue — Zenio Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A3050; --navy-dark: #0F1D32; --navy-light: #2C4B78;
+  --copper-accent: #B07D62; --copper-pale: #F0E6E0;
+  --cream: #F2EFEA; --warm-gray: #E8E4DE;
+  --mid-gray: #9a9390; --light-text: #6b6460; --white: #FDFCFB;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--navy-dark); font-weight: 300; overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(253,252,251,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--warm-gray);
+  padding: 0 60px; display: flex; align-items: center; justify-content: space-between; height: 80px;
+}
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--navy-dark); text-decoration: none; }
+.nav-logo span { color: var(--copper-accent); font-style: italic; }
+.nav-links { display: flex; gap: 36px; align-items: center; list-style: none; }
+.nav-links a { font-size: 12px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--copper-accent); }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-cart { position: relative; cursor: pointer; font-size: 20px; text-decoration: none; color: var(--navy-dark); background: none; border: none; }
+.cart-badge { position: absolute; top: -8px; right: -10px; background: var(--copper-accent); color: white; font-size: 10px; font-family: 'Jost', sans-serif; width: 18px; height: 18px; border-radius: 50%; display: none; align-items: center; justify-content: center; }
+
+/* PAGE HEADER */
+.page-header {
+  background: var(--cream); padding: 60px 60px 48px;
+  border-bottom: 1px solid var(--warm-gray);
+}
+.breadcrumb {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mid-gray); margin-bottom: 20px;
+}
+.breadcrumb a { color: var(--mid-gray); text-decoration: none; }
+.breadcrumb a:hover { color: var(--copper-accent); }
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px; font-weight: 300;
+  color: var(--navy-dark); margin-bottom: 8px;
+}
+.page-count { font-size: 13px; color: var(--light-text); }
+
+/* LAYOUT */
+.catalogue-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 0;
+  align-items: start;
+}
+
+/* SIDEBAR */
+.sidebar {
+  padding: 40px 32px;
+  border-right: 1px solid var(--warm-gray);
+  position: sticky; top: 80px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+.filter-section { margin-bottom: 36px; }
+.filter-title {
+  font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--navy-dark);
+  margin-bottom: 16px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--warm-gray);
+}
+.filter-options { display: flex; flex-direction: column; gap: 10px; }
+.filter-option {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; transition: color 0.2s;
+}
+.filter-option:hover { color: var(--copper-accent); }
+.filter-option input[type="checkbox"] { accent-color: var(--copper-accent); cursor: pointer; }
+.filter-option label { font-size: 13px; cursor: pointer; }
+.filter-count { font-size: 11px; color: var(--mid-gray); margin-left: auto; }
+.price-range-wrap { padding: 8px 0; }
+.price-inputs { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+.price-input {
+  width: 80px; padding: 8px 10px;
+  border: 1px solid var(--warm-gray); border-radius: 2px;
+  font-family: 'Jost', sans-serif; font-size: 13px;
+  color: var(--navy-dark); outline: none;
+}
+.price-sep { color: var(--mid-gray); font-size: 13px; }
+.clear-filters {
+  width: 100%; background: none;
+  border: 1px solid var(--warm-gray);
+  padding: 10px; cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--light-text);
+  border-radius: 2px; transition: all 0.2s;
+}
+.clear-filters:hover { border-color: var(--navy); color: var(--navy); }
+
+/* PRODUCTS AREA */
+.products-area { padding: 32px 40px; }
+.products-toolbar {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--warm-gray);
+}
+.search-bar-wrap { position: relative; }
+.search-bar {
+  padding: 10px 16px 10px 40px;
+  border: 1px solid var(--warm-gray); border-radius: 2px;
+  font-family: 'Jost', sans-serif; font-size: 13px;
+  width: 260px; outline: none; color: var(--navy-dark);
+  transition: border-color 0.2s;
+}
+.search-bar:focus { border-color: var(--navy); }
+.search-icon-bar { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--mid-gray); font-size: 14px; }
+.toolbar-right { display: flex; align-items: center; gap: 16px; }
+.sort-select {
+  padding: 9px 14px; border: 1px solid var(--warm-gray); border-radius: 2px;
+  font-family: 'Jost', sans-serif; font-size: 12px;
+  color: var(--navy-dark); outline: none; cursor: pointer;
+  letter-spacing: 0.06em;
+}
+.grid-toggles { display: flex; gap: 4px; }
+.grid-toggle {
+  background: none; border: 1px solid var(--warm-gray);
+  width: 36px; height: 36px; border-radius: 2px;
+  cursor: pointer; display: flex; align-items: center;
+  justify-content: center; font-size: 14px;
+  color: var(--mid-gray); transition: all 0.15s;
+}
+.grid-toggle.active, .grid-toggle:hover {
+  background: var(--navy); border-color: var(--navy); color: white;
+}
+
+/* PRODUCTS GRID */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.products-grid.list-view {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.product-card {
+  background: var(--white);
+  border: 1px solid var(--warm-gray);
+  border-radius: 3px; overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
+}
+.product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(15,29,50,0.09); }
+.product-img-wrap { position: relative; overflow: hidden; aspect-ratio: 1; }
+.product-img-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--warm-gray) 100%);
+  display: flex; align-items: center; justify-content: center; font-size: 56px;
+  transition: transform 0.4s ease;
+}
+.product-card:hover .product-img-placeholder { transform: scale(1.05); }
+.product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.product-card:hover .product-img-wrap img { transform: scale(1.05); }
+.product-tag {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--copper-accent); color: white;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 1px;
+}
+.product-wishlist {
+  position: absolute; top: 10px; right: 12px;
+  background: white; width: 30px; height: 30px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; cursor: pointer; opacity: 0; transition: opacity 0.2s;
+  border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.product-card:hover .product-wishlist { opacity: 1; }
+.product-info { padding: 18px; }
+.product-category { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 5px; }
+.product-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--navy-dark); margin-bottom: 4px; line-height: 1.3; }
+.product-desc-short { font-size: 12px; color: var(--light-text); line-height: 1.6; margin-bottom: 14px; }
+.product-footer { display: flex; align-items: center; justify-content: space-between; }
+.product-price { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--navy-dark); }
+.product-price .old-price { font-size: 13px; color: var(--mid-gray); text-decoration: line-through; margin-right: 5px; }
+.add-btn {
+  background: var(--navy); border: none; color: var(--white);
+  font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 8px 16px; cursor: pointer;
+  border-radius: 2px; transition: background 0.2s;
+}
+.add-btn:hover { background: var(--copper-accent); }
+
+/* LIST VIEW */
+.products-grid.list-view .product-card {
+  display: grid; grid-template-columns: 120px 1fr; gap: 0;
+}
+.products-grid.list-view .product-img-wrap { aspect-ratio: 1; }
+.products-grid.list-view .product-info { padding: 20px 24px; display: flex; flex-direction: column; justify-content: center; }
+
+/* ACTIVE FILTERS */
+.active-filters {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+}
+.active-filter-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--cream); border: 1px solid var(--warm-gray);
+  padding: 5px 12px; border-radius: 2px;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy-dark);
+}
+.active-filter-tag button {
+  background: none; border: none; cursor: pointer;
+  color: var(--mid-gray); font-size: 13px; line-height: 1;
+  transition: color 0.15s;
+}
+.active-filter-tag button:hover { color: #c0392b; }
+
+/* PAGINATION */
+.pagination {
+  display: flex; justify-content: center; gap: 8px;
+  margin-top: 48px; padding-top: 32px;
+  border-top: 1px solid var(--warm-gray);
+}
+.page-btn {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--warm-gray); border-radius: 2px;
+  font-size: 13px; cursor: pointer; background: none;
+  color: var(--navy-dark); transition: all 0.15s;
+}
+.page-btn:hover, .page-btn.active {
+  background: var(--navy); border-color: var(--navy); color: white;
+}
+
+/* CART DRAWER */
+.cart-overlay { position: fixed; inset: 0; background: rgba(15,29,50,0.5); z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+.cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; background: var(--white); z-index: 301; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; }
+.cart-drawer.open { transform: translateX(0); }
+.cart-header { padding: 32px 32px 24px; border-bottom: 1px solid var(--warm-gray); display: flex; align-items: center; justify-content: space-between; }
+.cart-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; }
+.cart-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--mid-gray); transition: color 0.2s; }
+.cart-close:hover { color: var(--navy-dark); }
+.cart-items { flex: 1; overflow-y: auto; padding: 24px 32px; }
+.cart-empty { text-align: center; padding: 60px 20px; color: var(--light-text); }
+.cart-empty-icon { font-size: 48px; margin-bottom: 16px; }
+.cart-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--warm-gray); }
+.cart-item-img { width: 72px; height: 72px; background: var(--cream); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+.cart-item-info { flex: 1; }
+.cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; margin-bottom: 4px; }
+.cart-item-price { font-size: 14px; color: var(--light-text); }
+.cart-item-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.qty-btn { background: none; border: 1px solid var(--warm-gray); width: 26px; height: 26px; border-radius: 2px; cursor: pointer; font-size: 16px; color: var(--navy-dark); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.qty-btn:hover { background: var(--navy); color: white; border-color: var(--navy); }
+.qty-num { font-size: 14px; min-width: 20px; text-align: center; }
+.cart-item-remove { background: none; border: none; color: var(--mid-gray); cursor: pointer; font-size: 12px; margin-left: auto; transition: color 0.2s; }
+.cart-item-remove:hover { color: #c0392b; }
+.cart-footer { padding: 24px 32px 32px; border-top: 1px solid var(--warm-gray); }
+.cart-subtotal { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.cart-subtotal span:first-child { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light-text); }
+.cart-subtotal span:last-child { font-family: 'Cormorant Garamond', serif; font-size: 22px; }
+.cart-checkout { width: 100%; background: var(--navy); color: white; border: none; padding: 16px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: background 0.2s; }
+.cart-checkout:hover { background: var(--copper-accent); }
+
+/* TOAST */
+.toast { position: fixed; bottom: 32px; right: 32px; background: var(--navy-dark); color: var(--white); padding: 14px 24px; border-left: 3px solid var(--copper-accent); opacity: 0; transform: translateY(8px); transition: 0.3s; z-index: 400; font-size: 13px; }
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* NO RESULTS */
+.no-results { text-align: center; padding: 80px 20px; color: var(--light-text); }
+.no-results-icon { font-size: 48px; margin-bottom: 16px; }
+
+@media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .catalogue-layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--warm-gray); display: none; }
+  .sidebar.mobile-open { display: block; }
+  .products-area { padding: 24px 20px; }
+  .page-header { padding: 40px 20px 32px; }
+  .cart-drawer { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Zenio <span>Home</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="catalogue.html" class="active">Catalogue</a></li>
+    <li><a href="catalogue.html?cat=nouveautes">Nouveautés</a></li>
+    <li><a href="index.html#newsletter">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cart" onclick="toggleCart()" aria-label="Panier">
+      🛒 <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / <span id="breadcrumbCat">Catalogue</span></div>
+  <div class="page-title" id="pageTitle">Catalogue</div>
+  <div class="page-count" id="pageCount">200+ produits</div>
+</div>
+
+<div class="catalogue-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-section">
+      <div class="filter-title">Catégories</div>
+      <div class="filter-options">
+        <label class="filter-option"><input type="checkbox" name="cat" value="maison-connectee" onchange="applyFilters()"><label>Maison Connectée</label><span class="filter-count">84</span></label>
+        <label class="filter-option"><input type="checkbox" name="cat" value="eclairage" onchange="applyFilters()"><label>Éclairage</label><span class="filter-count">42</span></label>
+        <label class="filter-option"><input type="checkbox" name="cat" value="bureau" onchange="applyFilters()"><label>Bureau</label><span class="filter-count">51</span></label>
+        <label class="filter-option"><input type="checkbox" name="cat" value="bien-etre" onchange="applyFilters()"><label>Bien-être</label><span class="filter-count">36</span></label>
+        <label class="filter-option"><input type="checkbox" name="cat" value="cuisine" onchange="applyFilters()"><label>Cuisine Tech</label><span class="filter-count">29</span></label>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-title">Prix</div>
+      <div class="price-range-wrap">
+        <div class="price-inputs">
+          <input type="number" class="price-input" id="priceMin" placeholder="Min" min="0" onchange="applyFilters()">
+          <span class="price-sep">—</span>
+          <input type="number" class="price-input" id="priceMax" placeholder="Max" min="0" onchange="applyFilters()">
+        </div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-title">Disponibilité</div>
+      <div class="filter-options">
+        <label class="filter-option"><input type="checkbox" name="dispo" value="stock" onchange="applyFilters()"><label>En stock</label></label>
+        <label class="filter-option"><input type="checkbox" name="dispo" value="promo" onchange="applyFilters()"><label>En promotion</label></label>
+        <label class="filter-option"><input type="checkbox" name="dispo" value="nouveau" onchange="applyFilters()"><label>Nouveautés</label></label>
+      </div>
+    </div>
+    <button class="clear-filters" onclick="clearFilters()">Réinitialiser les filtres</button>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <div class="products-area">
+    <div class="products-toolbar">
+      <div class="search-bar-wrap">
+        <span class="search-icon-bar">⌕</span>
+        <input type="text" class="search-bar" id="searchBar" placeholder="Rechercher un produit..." oninput="applyFilters()">
+      </div>
+      <div class="toolbar-right">
+        <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+          <option value="featured">Sélection</option>
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+          <option value="name">Nom A-Z</option>
+          <option value="newest">Nouveautés</option>
+        </select>
+        <div class="grid-toggles">
+          <button class="grid-toggle active" id="gridBtn" onclick="setView('grid')" title="Grille">⊞</button>
+          <button class="grid-toggle" id="listBtn" onclick="setView('list')" title="Liste">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="active-filters" id="activeFilters"></div>
+    <div class="products-grid" id="productsGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <div class="cart-title">Mon Panier</div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Votre panier est vide.</p></div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-subtotal"><span>Sous-total</span><span id="cartTotal">0,00 €</span></div>
+    <button class="cart-checkout" onclick="showToast('Redirection vers le paiement…')">Passer la commande</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ALL_PRODUCTS = [
+  { id: 1,  name: "Thermomètre Smart",         cat: "Maison connectée", catSlug: "maison-connectee", price: 34.99, oldPrice: null,  tag: null,       emoji: "🌡️", desc: "Suivi temp. & humidité, app mobile", isNew: false },
+  { id: 2,  name: "Ampoule LED RGB",            cat: "Éclairage",        catSlug: "eclairage",        price: 19.99, oldPrice: 24.99, tag: "Promo",     emoji: "💡", desc: "16M couleurs, compatible Alexa & Google", isNew: false },
+  { id: 3,  name: "Mini Aspirateur Bureau",     cat: "Bureau",           catSlug: "bureau",           price: 27.99, oldPrice: null,  tag: null,       emoji: "🧹", desc: "Rechargeable USB-C, silencieux", isNew: false },
+  { id: 4,  name: "Capteur Humidité Plante",    cat: "Bien-être",        catSlug: "bien-etre",        price: 14.99, oldPrice: null,  tag: "Nouveau",  emoji: "🌿", desc: "Alerte smartphone, IP65", isNew: true },
+  { id: 5,  name: "Diffuseur Mag-Lev",          cat: "Bien-être",        catSlug: "bien-etre",        price: 89.99, oldPrice: null,  tag: "Nouveau",  emoji: "🌀", desc: "Lévitation magnétique, ultra silencieux", isNew: true },
+  { id: 6,  name: "Prise Connectée",            cat: "Maison connectée", catSlug: "maison-connectee", price: 22.99, oldPrice: 29.99, tag: "Promo",     emoji: "🔌", desc: "Mesure conso. énergie, timer", isNew: false },
+  { id: 7,  name: "Lampe de Bureau LED",        cat: "Éclairage",        catSlug: "eclairage",        price: 49.99, oldPrice: null,  tag: null,       emoji: "🔦", desc: "Luminosité adaptative, chargeur Qi intégré", isNew: false },
+  { id: 8,  name: "Balance Cuisine Smart",      cat: "Cuisine",          catSlug: "cuisine",          price: 39.99, oldPrice: null,  tag: null,       emoji: "⚖️", desc: "Précision 1g, calcul nutritionnel app", isNew: false },
+  { id: 9,  name: "Détecteur de Fumée WiFi",    cat: "Maison connectée", catSlug: "maison-connectee", price: 44.99, oldPrice: null,  tag: "Nouveau",  emoji: "🔥", desc: "Alerte instantanée, 10 ans de batterie", isNew: true },
+  { id: 10, name: "Caméra Intérieure 1080p",    cat: "Maison connectée", catSlug: "maison-connectee", price: 59.99, oldPrice: 74.99, tag: "Promo",     emoji: "📷", desc: "Vision nocturne, stockage cloud", isNew: false },
+  { id: 11, name: "Ruban LED Connecté 5m",      cat: "Éclairage",        catSlug: "eclairage",        price: 32.99, oldPrice: null,  tag: null,       emoji: "🌈", desc: "Découpe flexible, app + télécommande", isNew: false },
+  { id: 12, name: "Serrure Connectée",          cat: "Maison connectée", catSlug: "maison-connectee", price: 129.99, oldPrice: null, tag: "Nouveau",  emoji: "🔑", desc: "Code, empreinte, smartphone", isNew: true },
+  { id: 13, name: "Robot Aspirateur",           cat: "Maison connectée", catSlug: "maison-connectee", price: 199.99, oldPrice: 249.99, tag: "Promo",   emoji: "🤖", desc: "Cartographie laser, retour base auto", isNew: false },
+  { id: 14, name: "Purificateur d'Air",         cat: "Bien-être",        catSlug: "bien-etre",        price: 79.99, oldPrice: null,  tag: null,       emoji: "🫁", desc: "Filtre HEPA H13, silencieux 25dB", isNew: false },
+  { id: 15, name: "Chargeur Bureau 65W",        cat: "Bureau",           catSlug: "bureau",           price: 34.99, oldPrice: null,  tag: null,       emoji: "⚡", desc: "4 ports USB-C PD, charge rapide", isNew: false },
+  { id: 16, name: "Organiseur Câbles Premium",  cat: "Bureau",           catSlug: "bureau",           price: 18.99, oldPrice: null,  tag: null,       emoji: "🗂️", desc: "Silicone souple, coloris discrets", isNew: false },
+  { id: 17, name: "Machine à Expresso Smart",   cat: "Cuisine",          catSlug: "cuisine",          price: 149.99, oldPrice: null, tag: "Nouveau",  emoji: "☕", desc: "App mobile, chaleur précise ±1°C", isNew: true },
+  { id: 18, name: "Carafe Filtrante UV",        cat: "Cuisine",          catSlug: "cuisine",          price: 54.99, oldPrice: null,  tag: null,       emoji: "🧊", desc: "Stérilisation UV intégrée, 2.4L", isNew: false },
+];
+
+const ITEMS_PER_PAGE = 12;
+let currentPage = 1;
+let viewMode = 'grid';
+let cart = JSON.parse(localStorage.getItem('zenio_cart') || '[]');
+
+// URL params
+const urlParams = new URLSearchParams(window.location.search);
+const catParam = urlParams.get('cat');
+
+function getFilteredProducts() {
+  const query = document.getElementById('searchBar').value.toLowerCase();
+  const selectedCats = [...document.querySelectorAll('input[name="cat"]:checked')].map(i => i.value);
+  const selectedDispo = [...document.querySelectorAll('input[name="dispo"]:checked')].map(i => i.value);
+  const minPrice = parseFloat(document.getElementById('priceMin').value) || 0;
+  const maxPrice = parseFloat(document.getElementById('priceMax').value) || Infinity;
+  const sort = document.getElementById('sortSelect').value;
+
+  let products = ALL_PRODUCTS.filter(p => {
+    if (query && !p.name.toLowerCase().includes(query) && !p.cat.toLowerCase().includes(query)) return false;
+    if (selectedCats.length && !selectedCats.includes(p.catSlug)) return false;
+    if (p.price < minPrice || p.price > maxPrice) return false;
+    if (selectedDispo.includes('promo') && !p.tag?.includes('Promo')) return false;
+    if (selectedDispo.includes('nouveau') && !p.isNew) return false;
+    return true;
+  });
+
+  if (sort === 'price-asc') products.sort((a,b) => a.price - b.price);
+  else if (sort === 'price-desc') products.sort((a,b) => b.price - a.price);
+  else if (sort === 'name') products.sort((a,b) => a.name.localeCompare(b.name));
+  else if (sort === 'newest') products.sort((a,b) => b.isNew - a.isNew);
+
+  return products;
+}
+
+function applyFilters() {
+  currentPage = 1;
+  renderProducts();
+  renderActiveFilters();
+}
+
+function clearFilters() {
+  document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
+  document.getElementById('priceMin').value = '';
+  document.getElementById('priceMax').value = '';
+  document.getElementById('searchBar').value = '';
+  applyFilters();
+}
+
+function renderActiveFilters() {
+  const el = document.getElementById('activeFilters');
+  const tags = [];
+  document.querySelectorAll('input[name="cat"]:checked').forEach(i => {
+    tags.push(`<span class="active-filter-tag">${i.nextElementSibling.textContent} <button onclick="uncheckFilter('cat','${i.value}')">✕</button></span>`);
+  });
+  el.innerHTML = tags.join('');
+}
+
+function uncheckFilter(name, value) {
+  const el = document.querySelector(`input[name="${name}"][value="${value}"]`);
+  if (el) { el.checked = false; applyFilters(); }
+}
+
+function renderProducts() {
+  const products = getFilteredProducts();
+  const total = products.length;
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const page = products.slice(start, start + ITEMS_PER_PAGE);
+
+  document.getElementById('pageCount').textContent = `${total} produit${total > 1 ? 's' : ''}`;
+
+  const grid = document.getElementById('productsGrid');
+  grid.className = 'products-grid' + (viewMode === 'list' ? ' list-view' : '');
+
+  if (page.length === 0) {
+    grid.innerHTML = `<div class="no-results" style="grid-column:1/-1"><div class="no-results-icon">🔍</div><p style="font-size:14px;">Aucun produit ne correspond à votre recherche.</p></div>`;
+  } else {
+    grid.innerHTML = page.map(p => `
+      <div class="product-card" onclick="window.location='produit.html?id=${p.id}'">
+        <div class="product-img-wrap">
+          <!-- REMPLACER l'emoji par: <img src="images/product-${p.id}.jpg" alt="${p.name}"> -->
+          <div class="product-img-placeholder">${p.emoji}</div>
+          ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ''}
+          <button class="product-wishlist" onclick="event.stopPropagation();showToast('Ajouté aux favoris ♥')">♡</button>
+        </div>
+        <div class="product-info">
+          <div class="product-category">${p.cat}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc-short">${p.desc}</div>
+          <div class="product-footer">
+            <div class="product-price">
+              ${p.oldPrice ? `<span class="old-price">${p.oldPrice.toFixed(2).replace('.',',')} €</span>` : ''}
+              ${p.price.toFixed(2).replace('.',',')} €
+            </div>
+            <button class="add-btn" onclick="event.stopPropagation();addToCart(${p.id})">+ Panier</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Pagination
+  const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+  const pgEl = document.getElementById('pagination');
+  if (totalPages <= 1) { pgEl.innerHTML = ''; return; }
+  let btns = '';
+  if (currentPage > 1) btns += `<button class="page-btn" onclick="goPage(${currentPage-1})">‹</button>`;
+  for (let i = 1; i <= totalPages; i++) {
+    btns += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if (currentPage < totalPages) btns += `<button class="page-btn" onclick="goPage(${currentPage+1})">›</button>`;
+  pgEl.innerHTML = btns;
+}
+
+function goPage(p) { currentPage = p; renderProducts(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function setView(v) {
+  viewMode = v;
+  document.getElementById('gridBtn').classList.toggle('active', v === 'grid');
+  document.getElementById('listBtn').classList.toggle('active', v === 'list');
+  renderProducts();
+}
+
+// CART
+function saveCart() { localStorage.setItem('zenio_cart', JSON.stringify(cart)); }
+function addToCart(productId) {
+  const p = ALL_PRODUCTS.find(x => x.id === productId);
+  if (!p) return;
+  const existing = cart.find(x => x.id === productId);
+  if (existing) existing.qty++;
+  else cart.push({ ...p, qty: 1 });
+  saveCart(); updateCartUI();
+  showToast(p.name + ' ajouté au panier ✓');
+}
+function removeFromCart(id) { cart = cart.filter(x => x.id !== id); saveCart(); updateCartUI(); }
+function changeQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else { saveCart(); updateCartUI(); }
+}
+function updateCartUI() {
+  const total = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  const count = cart.reduce((s,i) => s+i.qty, 0);
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = count; badge.style.display = count > 0 ? 'flex' : 'none';
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+  if (cart.length === 0) {
+    itemsEl.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Votre panier est vide.</p></div>`;
+    footerEl.style.display = 'none';
+  } else {
+    itemsEl.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-img">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">${item.price.toFixed(2).replace('.',',')} €</div>
+          <div class="cart-item-controls">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Retirer</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('cartTotal').textContent = total.toFixed(2).replace('.',',') + ' €';
+    footerEl.style.display = 'block';
+  }
+}
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// INIT
+if (catParam) {
+  const checkbox = document.querySelector(`input[name="cat"][value="${catParam}"]`);
+  if (checkbox) checkbox.checked = true;
+  const titles = { 'maison-connectee': 'Maison Connectée', 'eclairage': 'Éclairage', 'bureau': 'Bureau', 'bien-etre': 'Bien-être', 'cuisine': 'Cuisine Tech', 'nouveautes': 'Nouveautés' };
+  if (titles[catParam]) {
+    document.getElementById('pageTitle').textContent = titles[catParam];
+    document.getElementById('breadcrumbCat').textContent = titles[catParam];
+  }
+  if (catParam === 'nouveautes') {
+    document.querySelector('input[name="dispo"][value="nouveau"]').checked = true;
+  }
+}
+
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>
