@@ -1,0 +1,12 @@
+{
+  "buildCommand": "sed -i \"s|__SUPABASE_URL__|$SUPABASE_URL|g\" config.js && sed -i \"s|__SUPABASE_KEY__|$SUPABASE_KEY|g\" config.js",
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    }
+  ]
+}
