@@ -366,22 +366,6 @@ input {
   color: var(--navy-dark);
 }
 
-.discount-badge {
-  background: var(--danger-soft);
-  color: #B35431;
-  border: 1px solid #FFD9C7;
-  padding: 7px 10px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.old-price {
-  color: var(--text-soft);
-  text-decoration: line-through;
-  font-size: 17px;
-}
-
 .delivery-banner {
   display: flex;
   align-items: center;
@@ -414,16 +398,6 @@ input {
   font-weight: 600;
   color: var(--navy-dark);
   margin-bottom: 12px;
-}
-
-.size-guide {
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--copper);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .pill-row {
@@ -1069,11 +1043,6 @@ function formatPrice(price) {
   return `$${Number(price || 0).toFixed(2)}`;
 }
 
-function getOriginalPrice(price) {
-  const current = Number(price || 0);
-  return current > 0 ? current / 0.85 : 0;
-}
-
 function normalizeProduct(product) {
   const images = Array.isArray(product.images)
     ? product.images.filter(Boolean)
@@ -1226,7 +1195,6 @@ function renderProduct(product) {
   const images = product.images && product.images.length ? product.images : [];
   const mainImage = images[0] || product.imageUrl;
   const variants = getVariantData(product.name);
-  const oldPrice = getOriginalPrice(product.price);
 
   layout.innerHTML = `
     <div class="product-gallery">
@@ -1268,8 +1236,6 @@ function renderProduct(product) {
 
       <div class="price-card">
         <div class="current-price">${formatPrice(product.price)}</div>
-        <div class="discount-badge">-15%</div>
-        <div class="old-price">${formatPrice(oldPrice)}</div>
       </div>
 
       <div class="delivery-banner">
@@ -1292,10 +1258,7 @@ function renderProduct(product) {
       </div>
 
       <div class="variant-block">
-        <div class="variant-label">
-          <span>Size</span>
-          <a class="size-guide" href="#" onclick="event.preventDefault(); showToast('Size guide coming soon')">Size Guide</a>
-        </div>
+        <div class="variant-label">Size</div>
         <div class="pill-row">
           ${renderPills(variants.sizes, 'size-option')}
         </div>
