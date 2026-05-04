@@ -800,6 +800,26 @@ footer {
 /* ── Lang toggle ── */
 #langToggle { background: none; border: 1px solid var(--warm-gray); cursor: pointer; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid-gray); padding: 5px 10px; border-radius: 2px; transition: all 0.2s; }
 #langToggle:hover { border-color: var(--navy); color: var(--navy); }
+.zenio-single-category {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.zenio-single-category .cat-card:first-child {
+  grid-row: auto;
+}
+
+.zenio-fan-card {
+  min-height: 420px;
+}
+
+.zenio-fan-card .cat-placeholder {
+  min-height: 420px;
+  font-size: 72px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(216, 229, 240, 0.95), transparent 34%),
+    linear-gradient(145deg, var(--cream) 0%, var(--warm-gray) 100%);
+}
 
 </style>
 </head>
@@ -876,53 +896,19 @@ footer {
   </div>
 </div>
 
-<!-- CATEGORIES -->
+<!-- ZENIO FAN COLLECTION -->
 <section class="categories-section">
-  <div class="section-eyebrow" data-i18n="section_cat_eyebrow">Univers</div>
-  <div class="section-title" data-i18n="section_cat_title">Explorez nos catégories</div>
-  <div class="categories-grid">
-    <a href="catalogue.html?cat=maison-connectee" class="cat-card">
-      <div class="cat-placeholder" style="min-height:480px;">🏠</div>
+  <div class="section-eyebrow">Collection</div>
+  <h2 class="section-title">Explore Zenio Fan</h2>
+
+  <div class="categories-grid zenio-single-category">
+    <a href="catalogue.html" class="cat-card zenio-fan-card">
+      <div class="cat-placeholder">❄️</div>
+
       <div class="cat-overlay">
         <div>
-          <div class="cat-label" data-i18n="cat_maison">Maison Connectée</div>
-          <div class="cat-count">84 produits</div>
-        </div>
-      </div>
-    </a>
-    <a href="catalogue.html?cat=eclairage" class="cat-card">
-      <div class="cat-placeholder" style="min-height:220px;">💡</div>
-      <div class="cat-overlay">
-        <div>
-          <div class="cat-label" data-i18n="cat_eclairage">Éclairage</div>
-          <div class="cat-count">42 produits</div>
-        </div>
-      </div>
-    </a>
-    <a href="catalogue.html?cat=bien-etre" class="cat-card">
-      <div class="cat-placeholder" style="min-height:220px;">🌿</div>
-      <div class="cat-overlay">
-        <div>
-          <div class="cat-label" data-i18n="cat_bien_etre">Bien-être</div>
-          <div class="cat-count">36 produits</div>
-        </div>
-      </div>
-    </a>
-    <a href="catalogue.html?cat=bureau" class="cat-card">
-      <div class="cat-placeholder" style="min-height:220px;">🖥️</div>
-      <div class="cat-overlay">
-        <div>
-          <div class="cat-label" data-i18n="cat_bureau">Bureau &amp; Espace Travail</div>
-          <div class="cat-count">51 produits</div>
-        </div>
-      </div>
-    </a>
-    <a href="catalogue.html?cat=cuisine" class="cat-card">
-      <div class="cat-placeholder" style="min-height:220px;">🍳</div>
-      <div class="cat-overlay">
-        <div>
-          <div class="cat-label" data-i18n="cat_cuisine">Cuisine Tech</div>
-          <div class="cat-count">29 produits</div>
+          <div class="cat-label">Zenio Fan</div>
+          <div class="cat-count">7 products</div>
         </div>
       </div>
     </a>
