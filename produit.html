@@ -1019,7 +1019,7 @@ input {
   <div class="cart-footer" id="cartFooter" style="display:none;">
     <div class="cart-subtotal">
       <span>Subtotal</span>
-      <span id="cartTotal">0,00 €</span>
+      <span id="cartTotal">$0.00</span>
     </div>
     <button class="cart-checkout" onclick="showToast('Checkout coming soon')">Checkout</button>
   </div>
@@ -1066,7 +1066,7 @@ function escapeAttr(value) {
 }
 
 function formatPrice(price) {
-  return `${Number(price || 0).toFixed(2).replace('.', ',')} €`;
+  return `$${Number(price || 0).toFixed(2)}`;
 }
 
 function getOriginalPrice(price) {
@@ -1263,7 +1263,7 @@ function renderProduct(product) {
 
       <div class="review-row">
         <span class="stars">★★★★★</span>
-        <span>4.7/5 (428 reviews)</span>
+        <span>4.7/5</span>
       </div>
 
       <div class="price-card">
