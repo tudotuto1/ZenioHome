@@ -698,7 +698,7 @@ nav {
     </div>
 
     <div class="filter-section">
-      <div class="filter-title">Prix</div>
+      <div class="filter-title">Price</div>
       <div class="price-inputs">
         <input type="number" class="price-input" id="priceMin" placeholder="Min" min="0" onchange="applyFilters()">
         <span>—</span>
@@ -706,27 +706,27 @@ nav {
       </div>
     </div>
 
-    <button class="clear-filters" onclick="clearFilters()">Réinitialiser</button>
+    <button class="clear-filters" onclick="clearFilters()">Reset</button>
   </aside>
 
   <section class="products-area">
     <div class="products-toolbar">
       <div class="search-bar-wrap">
         <span class="search-icon-bar">⌕</span>
-        <input type="text" class="search-bar" id="searchBar" placeholder="Rechercher un produit…" oninput="applyFilters()">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Search product…" oninput="applyFilters()">
       </div>
 
       <div class="toolbar-right">
         <select class="sort-select" id="sortSelect" onchange="applyFilters()">
-          <option value="featured">Sélection</option>
-          <option value="price-asc">Prix croissant</option>
-          <option value="price-desc">Prix décroissant</option>
-          <option value="name">Nom A–Z</option>
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price low to high</option>
+          <option value="price-desc">Price high to low</option>
+          <option value="name">Name A–Z</option>
         </select>
 
         <div class="grid-toggles">
-          <button class="grid-toggle active" id="gridBtn" onclick="setView('grid')" title="Grille">⊞</button>
-          <button class="grid-toggle" id="listBtn" onclick="setView('list')" title="Liste">☰</button>
+          <button class="grid-toggle active" id="gridBtn" onclick="setView('grid')" title="Grid">⊞</button>
+          <button class="grid-toggle" id="listBtn" onclick="setView('list')" title="List">☰</button>
         </div>
       </div>
     </div>
@@ -740,7 +740,7 @@ nav {
 
 <div class="cart-drawer" id="cartDrawer">
   <div class="cart-header">
-    <div class="cart-title">Mon Panier</div>
+    <div class="cart-title">Your Cart</div>
     <button class="cart-close" onclick="toggleCart()">✕</button>
   </div>
 
@@ -753,8 +753,8 @@ nav {
 
   <div class="cart-footer" id="cartFooter" style="display:none;">
     <div class="cart-subtotal">
-      <span>Sous-total</span>
-      <span id="cartTotal">0,00 €</span>
+      <span>Subtotal</span>
+      <span id="cartTotal">$0.00</span>
     </div>
     <button class="cart-checkout">Checkout</button>
   </div>
@@ -764,6 +764,400 @@ nav {
 
 <script src="config.js"></script>
 <script src="translations.js"></script>
-<script src="script.js"></script>
+<script>
+(function initSupabase() {
+  const cfg = window.ZENIO_CONFIG || {};
+  const url = cfg.supabaseUrl;
+  const key = cfg.supabaseKey;
+
+  if (!url || !key || url.includes('__SUPABASE_URL__') || key.includes('__SUPABASE_KEY__')) {
+    console.warn('[Zenio] Supabase credentials missing.');
+    window.ZENIO_SUPABASE = null;
+    return;
+  }
+
+  window.ZENIO_SUPABASE = supabase.createClient(url, key);
+})();
+
+window.ZENIO_PRODUCTS = [];
+
+let cart = JSON.parse(localStorage.getItem('zenio_cart') || '[]');
+
+function escapeHTML(value) {
+  return String(value || '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function escapeAttr(value) {
+  return escapeHTML(value).replaceAll('`', '&#096;');
+}
+
+function formatPrice(price) {
+  return `$${Number(price || 0).toFixed(2)}`;
+}
+
+function normalizeProduct(product) {
+  const images = Array.isArray(product.images)
+    ? product.images.filter(Boolean)
+    : product.image_url
+      ? [product.image_url]
+      : [];
+
+  return {
+    id: Number(product.id),
+    name: product.name || 'Zenio Fan Product',
+    cat: product.category || 'Zenio Fan',
+    catSlug: 'zenio-fan',
+    price: Number(product.price || 0),
+    oldPrice: product.old_price ? Number(product.old_price) : null,
+    tag: product.tag || null,
+    emoji: product.emoji || '❄️',
+    desc: product.description || '',
+    isNew: Boolean(product.is_new),
+    images,
+    imageUrl: images[0] || null,
+    inStock: product.in_stock !== false
+  };
+}
+
+async function fetchProducts() {
+  if (!window.ZENIO_SUPABASE) {
+    return [];
+  }
+
+  const { data, error } = await window.ZENIO_SUPABASE
+    .from('products')
+    .select('*')
+    .order('id', { ascending: true });
+
+  if (error) {
+    console.error('[Zenio] Supabase fetch error:', error.message);
+    return [];
+  }
+
+  return data.map(normalizeProduct);
+}
+
+async function fetchProductById(id) {
+  if (!window.ZENIO_SUPABASE) return null;
+
+  const { data, error } = await window.ZENIO_SUPABASE
+    .from('products')
+    .select('*')
+    .eq('id', Number(id))
+    .single();
+
+  if (error) {
+    console.error('[Zenio] Product fetch error:', error.message);
+    return null;
+  }
+
+  return normalizeProduct(data);
+}
+
+function saveCart() {
+  localStorage.setItem('zenio_cart', JSON.stringify(cart));
+}
+
+function showSkeleton() {
+  const grid = document.getElementById('productsGrid');
+  grid.className = 'products-grid';
+
+  grid.innerHTML = Array.from({ length: 6 }, () => `
+    <div class="product-card skeleton-card">
+      <div class="product-img-wrap">
+        <div class="skeleton skeleton-img"></div>
+      </div>
+      <div class="product-info">
+        <div class="skeleton skeleton-line" style="width:45%;height:10px;margin-bottom:10px"></div>
+        <div class="skeleton skeleton-line" style="width:75%;height:18px;margin-bottom:16px"></div>
+        <div class="skeleton skeleton-line" style="width:35%;height:16px"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+const ITEMS_PER_PAGE = 12;
+let ALL_PRODUCTS = [];
+let currentPage = 1;
+let viewMode = 'grid';
+
+function getFilteredProducts() {
+  const query = (document.getElementById('searchBar')?.value || '').toLowerCase();
+  const minPrice = parseFloat(document.getElementById('priceMin')?.value) || 0;
+  const maxPrice = parseFloat(document.getElementById('priceMax')?.value) || Infinity;
+  const sort = document.getElementById('sortSelect')?.value || 'featured';
+
+  let products = ALL_PRODUCTS.filter(product => {
+    const searchable = `${product.name} ${product.cat}`.toLowerCase();
+
+    if (query && !searchable.includes(query)) return false;
+    if (product.price < minPrice || product.price > maxPrice) return false;
+    if (product.inStock === false) return false;
+
+    return true;
+  });
+
+  if (sort === 'price-asc') products.sort((a, b) => a.price - b.price);
+  else if (sort === 'price-desc') products.sort((a, b) => b.price - a.price);
+  else if (sort === 'name') products.sort((a, b) => a.name.localeCompare(b.name));
+  else products.sort((a, b) => a.id - b.id);
+
+  return products;
+}
+
+function productCardHTML(product) {
+  const image = product.images?.[0] || product.imageUrl;
+
+  const imageElement = image
+    ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(product.name)}" loading="lazy">`
+    : `<div class="product-img-placeholder">${escapeHTML(product.emoji || '❄️')}</div>`;
+
+  return `
+    <article class="product-card" data-product-id="${product.id}">
+      <a class="product-card-link" href="produit.html?id=${encodeURIComponent(product.id)}">
+        <div class="product-img-wrap">
+          ${imageElement}
+        </div>
+
+        <div class="product-info">
+          <div class="product-category">${escapeHTML(product.cat || 'Zenio Fan')}</div>
+          <h3 class="product-name">${escapeHTML(product.name)}</h3>
+
+          <div class="product-footer">
+            <div class="product-price">
+              ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+              ${formatPrice(product.price)}
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <button class="add-btn" onclick="event.stopPropagation();addToCart(${Number(product.id)})">
+        + Cart
+      </button>
+    </article>
+  `;
+}
+
+function renderProducts() {
+  const products = getFilteredProducts();
+  const total = products.length;
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const page = products.slice(start, start + ITEMS_PER_PAGE);
+
+  const countEl = document.getElementById('pageCount');
+  if (countEl) countEl.textContent = `${total} products`;
+
+  const grid = document.getElementById('productsGrid');
+  grid.className = 'products-grid' + (viewMode === 'list' ? ' list-view' : '');
+
+  if (!page.length) {
+    grid.innerHTML = `
+      <div class="no-results" style="grid-column:1/-1">
+        <div class="no-results-icon">🔍</div>
+        <p>No products found.</p>
+      </div>
+    `;
+  } else {
+    grid.innerHTML = page.map(productCardHTML).join('');
+  }
+
+  const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+  const paginationElement = document.getElementById('pagination');
+
+  if (paginationElement) {
+    if (totalPages <= 1) {
+      paginationElement.innerHTML = '';
+      return;
+    }
+
+    let buttons = '';
+
+    if (currentPage > 1) {
+      buttons += `<button class="page-btn" onclick="goPage(${currentPage - 1})">‹</button>`;
+    }
+
+    for (let i = 1; i <= totalPages; i++) {
+      buttons += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+    }
+
+    if (currentPage < totalPages) {
+      buttons += `<button class="page-btn" onclick="goPage(${currentPage + 1})">›</button>`;
+    }
+
+    paginationElement.innerHTML = buttons;
+  }
+}
+
+window.applyFilters = function() {
+  currentPage = 1;
+  renderProducts();
+};
+
+window.clearFilters = function() {
+  const minInput = document.getElementById('priceMin');
+  const maxInput = document.getElementById('priceMax');
+  const searchInput = document.getElementById('searchBar');
+
+  if (minInput) minInput.value = '';
+  if (maxInput) maxInput.value = '';
+  if (searchInput) searchInput.value = '';
+
+  applyFilters();
+};
+
+window.goPage = function(page) {
+  currentPage = page;
+  renderProducts();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.setView = function(view) {
+  viewMode = view;
+  document.getElementById('gridBtn')?.classList.toggle('active', view === 'grid');
+  document.getElementById('listBtn')?.classList.toggle('active', view === 'list');
+  renderProducts();
+};
+
+window.addToCart = async function(productId) {
+  const id = Number(productId);
+  let product = ALL_PRODUCTS.find(item => Number(item.id) === id);
+
+  if (!product) product = await fetchProductById(id);
+  if (!product) return;
+
+  const existing = cart.find(item => Number(item.id) === id);
+
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+
+  saveCart();
+  updateCartUI();
+  showToast(`${product.name} added to cart`);
+};
+
+window.removeFromCart = function(id) {
+  cart = cart.filter(item => Number(item.id) !== Number(id));
+  saveCart();
+  updateCartUI();
+};
+
+window.changeQty = function(id, delta) {
+  const item = cart.find(product => Number(product.id) === Number(id));
+  if (!item) return;
+
+  item.qty += delta;
+
+  if (item.qty <= 0) {
+    removeFromCart(id);
+  } else {
+    saveCart();
+    updateCartUI();
+  }
+};
+
+function updateCartUI() {
+  const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0);
+  const count = cart.reduce((sum, item) => sum + Number(item.qty), 0);
+
+  const badge = document.getElementById('cartBadge');
+  if (badge) {
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  }
+
+  const itemsElement = document.getElementById('cartItems');
+  const footerElement = document.getElementById('cartFooter');
+  const totalElement = document.getElementById('cartTotal');
+
+  if (!itemsElement) return;
+
+  if (!cart.length) {
+    itemsElement.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        <p>Your cart is empty.</p>
+      </div>
+    `;
+
+    if (footerElement) footerElement.style.display = 'none';
+    return;
+  }
+
+  itemsElement.innerHTML = cart.map(item => {
+    const image = item.images?.[0] || item.imageUrl;
+
+    return `
+      <div class="cart-item">
+        <div class="cart-item-img">
+          ${image ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(item.name)}">` : escapeHTML(item.emoji || '❄️')}
+        </div>
+
+        <div class="cart-item-info">
+          <div class="cart-item-name">${escapeHTML(item.name)}</div>
+          <div class="cart-item-price">${formatPrice(item.price)}</div>
+
+          <div class="cart-item-controls">
+            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Remove</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (totalElement) totalElement.textContent = formatPrice(total);
+  if (footerElement) footerElement.style.display = 'block';
+}
+
+window.toggleCart = function() {
+  document.getElementById('cartDrawer')?.classList.toggle('open');
+  document.getElementById('cartOverlay')?.classList.toggle('open');
+};
+
+window.showToast = function(message) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  setTimeout(() => toast.classList.remove('show'), 2800);
+};
+
+async function initCatalogue() {
+  const pageTitle = document.getElementById('pageTitle');
+  const breadcrumbCategory = document.getElementById('breadcrumbCat');
+
+  if (pageTitle) pageTitle.textContent = 'Zenio Fan';
+  if (breadcrumbCategory) breadcrumbCategory.textContent = 'Zenio Fan';
+
+  showSkeleton();
+
+  try {
+    ALL_PRODUCTS = await fetchProducts();
+    window.ZENIO_PRODUCTS = ALL_PRODUCTS;
+  } catch (error) {
+    console.error('[Zenio] fetchProducts error:', error);
+    ALL_PRODUCTS = [];
+    window.ZENIO_PRODUCTS = ALL_PRODUCTS;
+  }
+
+  renderProducts();
+  updateCartUI();
+}
+
+document.addEventListener('DOMContentLoaded', initCatalogue);
+</script>
 </body>
 </html>
