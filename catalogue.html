@@ -670,12 +670,11 @@ nav {
   <ul class="nav-links">
     <li><a href="index.html">Accueil</a></li>
     <li><a href="catalogue.html" class="active">Catalogue</a></li>
-    <li><a href="catalogue.html">Nouveautés</a></li>
     <li><a href="index.html#newsletter">Contact</a></li>
   </ul>
 
   <div class="nav-right">
-    <button id="langToggle" aria-label="Switch language">EN</button>
+    <button id="langToggle" aria-label="Changer la langue">EN</button>
     <button class="nav-cart" onclick="toggleCart()" aria-label="Panier">
       🛒 <span class="cart-badge" id="cartBadge">0</span>
     </button>
@@ -698,7 +697,7 @@ nav {
     </div>
 
     <div class="filter-section">
-      <div class="filter-title">Price</div>
+      <div class="filter-title">Prix</div>
       <div class="price-inputs">
         <input type="number" class="price-input" id="priceMin" placeholder="Min" min="0" onchange="applyFilters()">
         <span>—</span>
@@ -706,27 +705,27 @@ nav {
       </div>
     </div>
 
-    <button class="clear-filters" onclick="clearFilters()">Reset</button>
+    <button class="clear-filters" onclick="clearFilters()">Réinitialiser</button>
   </aside>
 
   <section class="products-area">
     <div class="products-toolbar">
       <div class="search-bar-wrap">
         <span class="search-icon-bar">⌕</span>
-        <input type="text" class="search-bar" id="searchBar" placeholder="Search product…" oninput="applyFilters()">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Rechercher un produit…" oninput="applyFilters()">
       </div>
 
       <div class="toolbar-right">
         <select class="sort-select" id="sortSelect" onchange="applyFilters()">
-          <option value="featured">Featured</option>
-          <option value="price-asc">Price low to high</option>
-          <option value="price-desc">Price high to low</option>
-          <option value="name">Name A–Z</option>
+          <option value="featured">Sélection</option>
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+          <option value="name">Nom A–Z</option>
         </select>
 
         <div class="grid-toggles">
-          <button class="grid-toggle active" id="gridBtn" onclick="setView('grid')" title="Grid">⊞</button>
-          <button class="grid-toggle" id="listBtn" onclick="setView('list')" title="List">☰</button>
+          <button class="grid-toggle active" id="gridBtn" onclick="setView('grid')" title="Grille">⊞</button>
+          <button class="grid-toggle" id="listBtn" onclick="setView('list')" title="Liste">☰</button>
         </div>
       </div>
     </div>
@@ -740,23 +739,23 @@ nav {
 
 <div class="cart-drawer" id="cartDrawer">
   <div class="cart-header">
-    <div class="cart-title">Your Cart</div>
+    <div class="cart-title">Votre panier</div>
     <button class="cart-close" onclick="toggleCart()">✕</button>
   </div>
 
   <div class="cart-items" id="cartItems">
     <div class="cart-empty">
       <div class="cart-empty-icon">🛒</div>
-      <p>Your cart is empty.</p>
+      <p>Votre panier est vide.</p>
     </div>
   </div>
 
   <div class="cart-footer" id="cartFooter" style="display:none;">
     <div class="cart-subtotal">
-      <span>Subtotal</span>
+      <span>Sous-total</span>
       <span id="cartTotal">$0.00</span>
     </div>
-    <button class="cart-checkout">Checkout</button>
+    <button class="cart-checkout">Passer à la caisse</button>
   </div>
 </div>
 
@@ -809,7 +808,7 @@ function normalizeProduct(product) {
 
   return {
     id: Number(product.id),
-    name: product.name || 'Zenio Fan Product',
+    name: product.name || 'Produit Zenio Fan',
     cat: product.category || 'Zenio Fan',
     catSlug: 'zenio-fan',
     price: Number(product.price || 0),
@@ -938,7 +937,7 @@ function productCardHTML(product) {
       </a>
 
       <button class="add-btn" onclick="event.stopPropagation();addToCart(${Number(product.id)})">
-        + Cart
+        Ajouter au panier
       </button>
     </article>
   `;
@@ -951,7 +950,7 @@ function renderProducts() {
   const page = products.slice(start, start + ITEMS_PER_PAGE);
 
   const countEl = document.getElementById('pageCount');
-  if (countEl) countEl.textContent = `${total} products`;
+  if (countEl) countEl.textContent = `${total} produits`;
 
   const grid = document.getElementById('productsGrid');
   grid.className = 'products-grid' + (viewMode === 'list' ? ' list-view' : '');
@@ -960,7 +959,7 @@ function renderProducts() {
     grid.innerHTML = `
       <div class="no-results" style="grid-column:1/-1">
         <div class="no-results-icon">🔍</div>
-        <p>No products found.</p>
+        <p>Aucun produit trouvé.</p>
       </div>
     `;
   } else {
@@ -1041,7 +1040,7 @@ window.addToCart = async function(productId) {
 
   saveCart();
   updateCartUI();
-  showToast(`${product.name} added to cart`);
+  showToast(`${product.name} ajouté au panier`);
 };
 
 window.removeFromCart = function(id) {
@@ -1084,7 +1083,7 @@ function updateCartUI() {
     itemsElement.innerHTML = `
       <div class="cart-empty">
         <div class="cart-empty-icon">🛒</div>
-        <p>Your cart is empty.</p>
+        <p>Votre panier est vide.</p>
       </div>
     `;
 
@@ -1109,7 +1108,7 @@ function updateCartUI() {
             <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
             <span class="qty-num">${item.qty}</span>
             <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Remove</button>
+            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Retirer</button>
           </div>
         </div>
       </div>
