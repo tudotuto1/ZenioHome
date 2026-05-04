@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product — Zenio Home</title>
+<title>Produit — Zenio Home</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -57,7 +57,6 @@ input {
   font-family: inherit;
 }
 
-/* HEADER */
 .site-header {
   position: relative;
   z-index: 100;
@@ -183,7 +182,6 @@ input {
   justify-content: center;
 }
 
-/* PAGE */
 .page-wrap {
   max-width: 1440px;
   margin: 0 auto;
@@ -298,7 +296,6 @@ input {
   display: block;
 }
 
-/* RIGHT COLUMN */
 .product-panel {
   background: rgba(255, 255, 255, 0.82);
   border: 1px solid var(--warm-gray);
@@ -563,7 +560,6 @@ input {
   line-height: 1.9;
 }
 
-/* RELATED */
 .related-section {
   max-width: 1440px;
   margin: 0 auto;
@@ -653,7 +649,6 @@ input {
   font-size: 22px;
 }
 
-/* CART */
 .cart-overlay {
   position: fixed;
   inset: 0;
@@ -848,7 +843,6 @@ input {
   text-align: center;
 }
 
-/* RESPONSIVE */
 @media (max-width: 1120px) {
   .product-shell {
     grid-template-columns: 1fr;
@@ -940,14 +934,13 @@ input {
     <a href="index.html" class="nav-brand">Zenio <span>Home</span></a>
 
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html">Accueil</a></li>
       <li><a href="catalogue.html" class="active">Catalogue</a></li>
-      <li><a href="catalogue.html">New Arrivals</a></li>
       <li><a href="index.html#newsletter">Contact</a></li>
     </ul>
 
     <div class="nav-actions">
-      <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Open cart">
+      <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Ouvrir le panier">
         🛒
         <span class="cart-badge" id="cartBadge">0</span>
       </button>
@@ -957,21 +950,21 @@ input {
 
 <main class="page-wrap">
   <div class="breadcrumb">
-    <a href="index.html">Home</a>
+    <a href="index.html">Accueil</a>
     <span>/</span>
     <a href="catalogue.html">Catalogue</a>
     <span>/</span>
-    <span id="breadcrumbName">Product</span>
+    <span id="breadcrumbName">Produit</span>
   </div>
 
   <section class="product-shell" id="productLayout">
-    <div class="loading-state">Loading product…</div>
+    <div class="loading-state">Chargement du produit…</div>
   </section>
 </main>
 
 <section class="related-section">
   <div class="related-heading">Zenio Fan</div>
-  <h2 class="related-title">You may also like</h2>
+  <h2 class="related-title">Vous aimerez aussi</h2>
   <div class="related-grid" id="relatedGrid"></div>
 </section>
 
@@ -979,23 +972,23 @@ input {
 
 <aside class="cart-drawer" id="cartDrawer">
   <div class="cart-header">
-    <div class="cart-title">Your Cart</div>
-    <button class="cart-close" onclick="toggleCart()" aria-label="Close cart">×</button>
+    <div class="cart-title">Votre panier</div>
+    <button class="cart-close" onclick="toggleCart()" aria-label="Fermer le panier">×</button>
   </div>
 
   <div class="cart-items" id="cartItems">
     <div class="cart-empty">
       <div class="cart-empty-icon">🛒</div>
-      <p>Your cart is empty.</p>
+      <p>Votre panier est vide.</p>
     </div>
   </div>
 
   <div class="cart-footer" id="cartFooter" style="display:none;">
     <div class="cart-subtotal">
-      <span>Subtotal</span>
+      <span>Sous-total</span>
       <span id="cartTotal">$0.00</span>
     </div>
-    <button class="cart-checkout" onclick="showToast('Checkout coming soon')">Checkout</button>
+    <button class="cart-checkout" onclick="showToast('Paiement bientôt disponible')">Passer à la caisse</button>
   </div>
 </aside>
 
@@ -1052,7 +1045,7 @@ function normalizeProduct(product) {
 
   return {
     id: Number(product.id),
-    name: product.name || 'Zenio Fan Product',
+    name: product.name || 'Produit Zenio Fan',
     description: product.description || '',
     price: Number(product.price || 0),
     category: product.category || 'Zenio Fan',
@@ -1109,49 +1102,49 @@ function getVariantData(productName) {
 
   if (name.includes('neck')) {
     return {
-      styles: ['Neck Fan', 'Sport Cooling'],
+      styles: ['Ventilateur de cou', 'Refroidissement sport'],
       colors: [
-        { name: 'White', value: '#F7F7F2' },
-        { name: 'Mint', value: '#BBDCCD' },
-        { name: 'Pink', value: '#F5C7D0' },
-        { name: 'Black', value: '#111111' },
-        { name: 'Blue', value: '#263B5D' }
+        { name: 'Blanc', value: '#F7F7F2' },
+        { name: 'Menthe', value: '#BBDCCD' },
+        { name: 'Rose', value: '#F5C7D0' },
+        { name: 'Noir', value: '#111111' },
+        { name: 'Bleu', value: '#263B5D' }
       ],
-      sizes: ['Standard', 'Adjustable Fit']
+      sizes: ['Standard', 'Ajustable']
     };
   }
 
   if (name.includes('makeup') || name.includes('mirror')) {
     return {
-      styles: ['Charging Model', 'Direct Plug-In'],
+      styles: ['Modèle rechargeable', 'Prise directe'],
       colors: [
-        { name: 'White', value: '#F8F6F1' },
-        { name: 'Cream', value: '#EDE1D1' }
+        { name: 'Blanc', value: '#F8F6F1' },
+        { name: 'Crème', value: '#EDE1D1' }
       ],
-      sizes: ['Desk Size', 'Vanity Size']
+      sizes: ['Format bureau', 'Format coiffeuse']
     };
   }
 
   if (name.includes('foldable') || name.includes('handheld') || name.includes('pocket')) {
     return {
-      styles: ['Portable Fan', 'Travel Fan'],
+      styles: ['Ventilateur portable', 'Format voyage'],
       colors: [
-        { name: 'White', value: '#F7F7F2' },
-        { name: 'Pink', value: '#F4B7C3' },
-        { name: 'Black', value: '#111111' }
+        { name: 'Blanc', value: '#F7F7F2' },
+        { name: 'Rose', value: '#F4B7C3' },
+        { name: 'Noir', value: '#111111' }
       ],
-      sizes: ['Compact', 'Pocket Size']
+      sizes: ['Compact', 'Format poche']
     };
   }
 
   return {
-    styles: ['Standard', 'Premium Cooling'],
+    styles: ['Standard', 'Refroidissement premium'],
     colors: [
-      { name: 'White', value: '#F8F6F1' },
-      { name: 'Blue', value: '#85BCE7' },
-      { name: 'Black', value: '#111111' }
+      { name: 'Blanc', value: '#F8F6F1' },
+      { name: 'Bleu', value: '#85BCE7' },
+      { name: 'Noir', value: '#111111' }
     ],
-    sizes: ['Standard', 'Large Airflow']
+    sizes: ['Standard', 'Grand débit d’air']
   };
 }
 
@@ -1199,7 +1192,7 @@ function renderProduct(product) {
   layout.innerHTML = `
     <div class="product-gallery">
       <div class="main-image-card">
-        <div class="gallery-badge">Zenio Selection</div>
+        <div class="gallery-badge">Sélection Zenio</div>
         ${
           mainImage
             ? `<img src="${escapeAttr(mainImage)}" alt="${escapeAttr(product.name)}" id="mainProductImage">`
@@ -1240,7 +1233,7 @@ function renderProduct(product) {
 
       <div class="delivery-banner">
         <span>🚚</span>
-        <span>Fast Delivery: 7 to 9 business days</span>
+        <span>Livraison : 7 à 9 jours ouvrables</span>
       </div>
 
       <div class="variant-block">
@@ -1251,37 +1244,37 @@ function renderProduct(product) {
       </div>
 
       <div class="variant-block">
-        <div class="variant-label">Color</div>
+        <div class="variant-label">Couleur</div>
         <div class="color-row">
           ${renderSwatches(variants.colors)}
         </div>
       </div>
 
       <div class="variant-block">
-        <div class="variant-label">Size</div>
+        <div class="variant-label">Taille</div>
         <div class="pill-row">
           ${renderPills(variants.sizes, 'size-option')}
         </div>
       </div>
 
       <div class="trust-box">
-        <div class="trust-title">Buy with confidence</div>
+        <div class="trust-title">Achetez en toute confiance</div>
         <ul class="trust-list">
-          <li><span class="check">✓</span> Secure payments</li>
-          <li><span class="check">✓</span> Privacy protection</li>
-          <li><span class="check">✓</span> Free returns within 30 days</li>
+          <li><span class="check">✓</span> Paiements sécurisés</li>
+          <li><span class="check">✓</span> Protection de la vie privée</li>
+          <li><span class="check">✓</span> Retours gratuits sous 30 jours</li>
         </ul>
       </div>
 
       <div class="cta-row">
-        <button class="add-to-cart" type="button" onclick="addToCart(${product.id})">ADD TO CART</button>
-        <button class="wishlist" type="button" aria-label="Add to wishlist" onclick="showToast('Added to wishlist')">♡</button>
+        <button class="add-to-cart" type="button" onclick="addToCart(${product.id})">Ajouter au panier</button>
+        <button class="wishlist" type="button" aria-label="Ajouter à la liste de souhaits" onclick="showToast('Ajouté à la liste de souhaits')">♡</button>
       </div>
 
-      <div class="urgency">Limited stock - Don't miss this offer!</div>
+      <div class="urgency">Stock limité - Ne manquez pas cette offre !</div>
 
       <div class="description-card">
-        <div class="description-title">Product Description</div>
+        <div class="description-title">Description du produit</div>
         <div class="description-text">${safeDescription}</div>
       </div>
     </aside>
@@ -1353,7 +1346,7 @@ window.addToCart = async function(productId) {
 
   saveCart();
   updateCartUI();
-  showToast(`${product.name} added to cart`);
+  showToast(`${product.name} ajouté au panier`);
 };
 
 window.removeFromCart = function(id) {
@@ -1396,7 +1389,7 @@ function updateCartUI() {
     itemsEl.innerHTML = `
       <div class="cart-empty">
         <div class="cart-empty-icon">🛒</div>
-        <p>Your cart is empty.</p>
+        <p>Votre panier est vide.</p>
       </div>
     `;
 
@@ -1421,7 +1414,7 @@ function updateCartUI() {
             <button class="qty-btn" type="button" onclick="changeQty(${item.id}, -1)">−</button>
             <span class="qty-num">${item.qty}</span>
             <button class="qty-btn" type="button" onclick="changeQty(${item.id}, 1)">+</button>
-            <button class="cart-item-remove" type="button" onclick="removeFromCart(${item.id})">Remove</button>
+            <button class="cart-item-remove" type="button" onclick="removeFromCart(${item.id})">Retirer</button>
           </div>
         </div>
       </div>
@@ -1453,7 +1446,7 @@ async function initProductPage() {
   const layout = document.getElementById('productLayout');
 
   if (!id) {
-    layout.innerHTML = `<div class="error-state">Product not found.</div>`;
+    layout.innerHTML = `<div class="error-state">Produit introuvable.</div>`;
     updateCartUI();
     return;
   }
@@ -1461,7 +1454,7 @@ async function initProductPage() {
   const product = await fetchProductById(id);
 
   if (!product) {
-    layout.innerHTML = `<div class="error-state">Product not found.</div>`;
+    layout.innerHTML = `<div class="error-state">Produit introuvable.</div>`;
     updateCartUI();
     return;
   }
